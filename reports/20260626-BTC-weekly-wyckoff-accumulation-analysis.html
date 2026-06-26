@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTC 주봉 Wyckoff Accumulation 분석 (2026-06-26)</title>
+<style>
+:root{
+  --bg:#0f1419; --panel:#1a2129; --panel2:#222b35; --border:#2c3742;
+  --text:#e6edf3; --text2:#9aa7b4; --muted:#6b7886;
+  --green:#3fb950; --red:#f85149; --amber:#d29922; --blue:#58a6ff;
+  --green-bg:#12261a; --red-bg:#2a1416;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.75;padding:24px}
+.container{max-width:1080px;margin:0 auto}
+.header{text-align:center;padding:32px 20px;background:linear-gradient(135deg,#141b22,#1c2530);
+  border:1px solid var(--border);border-radius:16px;margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
+.header .sub{color:var(--text2);font-size:14px}
+.ticker{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+.chip{background:var(--panel2);border:1px solid var(--border);border-radius:10px;
+  padding:8px 16px;font-size:13px}
+.chip b{font-size:16px;font-weight:700}
+.chip .lab{color:var(--muted);font-size:11px;display:block;margin-bottom:2px}
+.section{background:var(--panel);border:1px solid var(--border);border-radius:14px;
+  padding:26px;margin-bottom:22px}
+h2{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:10px;
+  border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+h3{font-size:15px;font-weight:600;margin:18px 0 8px;color:var(--text)}
+p{color:var(--text2);font-size:14px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}
+th{background:var(--panel2);font-weight:600;color:var(--text)}
+td{color:var(--text2)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.tag-sc{background:var(--red-bg);color:var(--red)}
+.tag-ar{background:#1a2433;color:var(--blue)}
+.tag-st{background:#2a2410;color:var(--amber)}
+.tag-sp{background:var(--green-bg);color:var(--green)}
+.schematic{background:#0d1217;border:1px solid var(--border);border-radius:10px;
+  padding:18px;margin:14px 0;font-family:'SF Mono',Menlo,monospace;font-size:12px;
+  color:var(--text2);overflow-x:auto;white-space:pre;line-height:1.6}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.col-for,.col-against{border-radius:14px;padding:22px;border:1px solid}
+.col-for{background:var(--green-bg);border-color:#1f4429}
+.col-against{background:var(--red-bg);border-color:#4a1f22}
+.col-for h2{color:var(--green);border-color:#1f4429}
+.col-against h2{color:var(--red);border-color:#4a1f22}
+.arg{margin-bottom:16px;padding-left:30px;position:relative}
+.arg .n{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.col-for .n{background:var(--green);color:#0a1a0f}
+.col-against .n{background:var(--red);color:#1a0a0b}
+.arg .at{font-weight:600;color:var(--text);font-size:14px;margin-bottom:3px}
+.arg .ad{color:var(--text2);font-size:13px}
+.verdict{background:var(--panel2);border-left:3px solid var(--amber);border-radius:0 10px 10px 0;
+  padding:16px 20px;margin-top:8px}
+.verdict h3{margin-top:0;color:var(--amber)}
+.disc{font-size:11.5px;color:var(--muted);padding:18px;background:#0d1217;
+  border-radius:10px;border:1px solid var(--border);line-height:1.7;margin-top:8px}
+.kw{color:var(--text);font-weight:600}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>Bitcoin 주봉 — Wyckoff Accumulation 시나리오 검증</h1>
+  <div class="sub">BINANCE:BTCUSDT · Weekly · 작성 2026-06-26 · "2월 폭락 = Selling Climax / 어제 저점 갱신 = Spring" 가설 검토</div>
+  <div class="ticker">
+    <div class="chip"><span class="lab">현재가</span><b>$59,917</b></div>
+    <div class="chip"><span class="lab">SC 저점 (2월)</span><b style="color:var(--red)">$60,000</b></div>
+    <div class="chip"><span class="lab">AR 고점 (4월)</span><b style="color:var(--blue)">$82,850</b></div>
+    <div class="chip"><span class="lab">Spring 저점 (현재주)</span><b style="color:var(--green)">$58,115</b></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📊 가설의 구조 — 데이터로 본 Wyckoff 이벤트</h2>
+  <p>가설은 2026년 2월 폭락을 <span class="kw">Selling Climax(SC)</span>로, 직전(어제) 저점 갱신을 <span class="kw">Spring</span>으로 보아, 그 사이 약 4~5개월의 횡보를 <span class="kw">매집 구간(Accumulation Trading Range)</span>으로 해석한다. 실제 주봉 데이터에 대입하면 다음과 같다.</p>
+  <table>
+    <tr><th>이벤트</th><th>시점</th><th class="num">저점/고점</th><th class="num">거래량</th><th>해석</th></tr>
+    <tr><td><span class="tag tag-sc">SC</span></td><td>2026-02 초</td><td class="num">저 $60,000</td><td class="num">384,283</td><td>주변 평균(~100k)의 약 <b>3배</b> — 클라이맥스성 패닉 매도</td></tr>
+    <tr><td><span class="tag tag-ar">AR</span></td><td>2026-04</td><td class="num">고 $82,850</td><td class="num">113,527</td><td>SC 후 자동반등, 레인지 상단(저항) 형성</td></tr>
+    <tr><td><span class="tag tag-st">ST</span></td><td>2026-05 말</td><td class="num">저 $59,130</td><td class="num">231,929</td><td>SC 저점 재테스트, SC보다 <b>낮은 거래량</b></td></tr>
+    <tr><td><span class="tag tag-sp">Spring?</span></td><td>2026-06 (현재주)</td><td class="num">저 $58,115 → 종 $59,937</td><td class="num">103,586</td><td>지지 하향이탈 후 <b>긴 아래꼬리</b> 회복</td></tr>
+  </table>
+  <div class="schematic">  Wyckoff Accumulation 도식 (Phase A→E)에 현재 가설 대입
+
+   $82,850 ┤        ╭─── AR ───╮              ← 레인지 상단(저항)
+           │       ╱            ╲    ╭╮  ╭╮
+           │  ╲   ╱              ╲  ╱  ╲╱  ╲
+   $60,000 ┤   ╲ ╱ ················╲╱········· ← SC 저점 (지지)
+   $59,130 ┤····╲········ ST ·············╲··· ← 2차 테스트
+   $58,115 ┤     ▼ SC                       ▼  ← Spring? (현재, 신저점)
+           └────────────────────────────────────
+             Phase A    Phase B(매집)   Phase C?
+             (멈춤)     (4~5개월 횡보)  (Spring/Shakeout 판정 단계)</div>
+  <p style="font-size:12.5px;color:var(--muted)">※ 저점 추이: SC $60,000 → ST $59,130 → 현재 $58,115 (점진적 하락). 이 사실이 아래 양쪽 논거의 핵심 쟁점이 된다.</p>
+</div>
+
+<div class="cols">
+
+  <div class="col-for">
+    <h2>✅ 매집(Accumulation)일 가능성</h2>
+
+    <div class="arg"><span class="n">1</span>
+      <div class="at">SC의 클라이맥스성 거래량</div>
+      <div class="ad">2월 폭락 주봉 거래량 <b>384k</b>는 주변 평균(~100k)의 약 3배. 패닉 투매가 한 주에 응축돼 흡수된 전형적 Selling Climax 시그니처로, Wyckoff 매집의 출발점(Phase A) 조건을 충족한다.</div></div>
+
+    <div class="arg"><span class="n">2</span>
+      <div class="at">자동반등(AR)이 명확히 존재</div>
+      <div class="ad">SC 저점 $60,000에서 4월 <b>$82,850</b>까지 약 38% 반등. AR은 레인지 상단을 정의하는 Wyckoff 필수 요소로, 이것이 있어야 "구간"이 성립한다 — 단순 하락이 아니란 증거.</div></div>
+
+    <div class="arg"><span class="n">3</span>
+      <div class="at">충분한 시간(Cause) 축적</div>
+      <div class="ad">2월~6월 약 <b>4~5개월</b>간 $59k~$82k 횡보. Wyckoff는 "원인(시간·거래)"이 쌓여야 큰 "결과(상승)"가 나온다고 본다. 이 정도 기간은 의미 있는 매집 베이스를 만들기에 충분하다.</div></div>
+
+    <div class="arg"><span class="n">4</span>
+      <div class="at">ST의 거래량 감소 = 공급 고갈</div>
+      <div class="ad">5월 2차 테스트($59,130)의 거래량 231k는 SC의 384k보다 <b>현저히 적다</b>. 같은 가격대를 다시 눌렀는데 매도가 줄었다는 건, 팔 사람이 줄고 있다는 구조적 신호다.</div></div>
+
+    <div class="arg"><span class="n">5</span>
+      <div class="at">Spring의 긴 아래꼬리 회복</div>
+      <div class="ad">현재 주봉이 $58,115로 신저점을 찍었으나 <b>$59,937로 종가 회복</b>(약 +3.1%, 긴 아래꼬리). 지지 아래 손절·숏을 털고(liquidity grab) 즉시 되돌린 형태는 전형적 Spring/Shakeout 모습이다.</div></div>
+
+    <div class="arg"><span class="n">6</span>
+      <div class="at">신저점 갱신폭이 미미(marginal)</div>
+      <div class="ad">Spring 저점 $58,115는 SC $60,000 대비 <b>약 −3%</b>에 불과. 추세 붕괴라면 더 깊게 빠졌을 텐데, 지지 바로 아래에서 멈춘 '얕은 이탈'은 Shakeout의 특징이다.</div></div>
+
+    <div class="arg"><span class="n">7</span>
+      <div class="at">레인지가 하방으로 붕괴하지 않음</div>
+      <div class="ad">반복된 테스트($60k→$59.1k→$58.1k)에도 종가 기준으로는 레인지 안에서 버티는 중. 결정적 마크다운(추세 하락)으로 전환하지 못하고 흡수되고 있다.</div></div>
+  </div>
+
+  <div class="col-against">
+    <h2>❌ 매집이 아닐 가능성</h2>
+
+    <div class="arg"><span class="n">1</span>
+      <div class="at">Spring 미확정 — 지지 회복 실패</div>
+      <div class="ad">진짜 Spring은 지지선을 <b>강하게 재탈환</b>해야 성립한다. 현재 종가 $59,917은 여전히 SC 저점 $60,000 <b>아래</b>다. 기술적으로 아직 '지지 위 복귀'를 못 했으니 Spring으로 확정할 수 없다.</div></div>
+
+    <div class="arg"><span class="n">2</span>
+      <div class="at">Spring 주봉의 거래량이 평범</div>
+      <div class="ad">신저점 주봉 거래량 103k는 평범한 수준 — 수요 급증(absorption spike)이 없다. 강력한 Spring은 보통 반등에 거래량이 실리는데, 지금은 얕은 꼬리에 그쳐 '수요 증거'가 약하다.</div></div>
+
+    <div class="arg"><span class="n">3</span>
+      <div class="at">하락하는 저점의 연쇄(Lower Lows)</div>
+      <div class="ad">SC $60,000 → ST $59,130 → 현재 $58,115. 매집이라면 SC 이후 저점이 <b>평평하거나 높아져야</b> 하는데, 몇 달에 걸쳐 계속 신저점을 만드는 건 베이스가 아니라 완만한 하락 추세에 가깝다.</div></div>
+
+    <div class="arg"><span class="n">4</span>
+      <div class="at">SOS(Sign of Strength) 부재</div>
+      <div class="ad">레인지 상단($82,850, 'creek')을 거래량 동반해 돌파한 적이 없다. Wyckoff 매집은 SOS/'jump across the creek'로 확인되는데, 그게 없으면 이 구간은 매집인지 <b>분산(distribution)·재분산</b>인지 가릴 수 없다.</div></div>
+
+    <div class="arg"><span class="n">5</span>
+      <div class="at">최근 종가의 하향 드리프트</div>
+      <div class="ad">최근 주봉 종가: $73k→$63k→$65k→$63k→$59.9k. 횡보처럼 보여도 종가가 <b>꾸준히 흘러내리는</b> 구조는 매집보다 마크다운/재분산의 전형이다.</div></div>
+
+    <div class="arg"><span class="n">6</span>
+      <div class="at">구조적 매도 압력(펀더멘털)</div>
+      <div class="ad">Wyckoff는 가격만 본다. 그러나 현실엔 MSTR/STRC 디스트레스(강제매도 잠재), 연준 인상 우려, ETF 유출 같은 <b>지속적 실공급</b>이 있다. 매집 이론이 가정하는 'composite operator'와 반대로, 큰 매도자가 계속 물량을 댈 수 있다.</div></div>
+
+    <div class="arg"><span class="n">7</span>
+      <div class="at">Risk-off 환경 — BTC 도미넌스 高</div>
+      <div class="ad">BTC 도미넌스 ~58%, 알트시즌 지수 低, 시장심리 'Extreme Fear'. 큰손이 공격적으로 매집하는 국면의 분위기가 아니라, 자금이 위험을 회피하는 국면이다.</div></div>
+
+    <div class="arg"><span class="n">8</span>
+      <div class="at">'Spring'이 Phase C 붕괴(SOW)일 수도</div>
+      <div class="ad">동일한 신저점 이탈이 Shakeout이 아니라 <b>약세 신호(Sign of Weakness)</b>로서 추가 하락의 시작일 수 있다. Spring과 SOW는 사후에만 구분되며, 지금은 둘 다 가능한 분기점이다.</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>⚖️ 종합 — 어디서 판가름 나는가</h2>
+  <div class="verdict">
+    <h3>판정의 분기점</h3>
+    <p style="margin-bottom:8px">현재 구조는 <span class="kw">Spring 후보 단계(Phase C)</span>에 정확히 걸쳐 있어, 매집과 추가하락 둘 다 살아있다. 결정적 변수는 <span class="kw">다음 1~3주 주봉의 행동</span>이다.</p>
+    <p style="margin-bottom:8px">✅ <b>매집 확정 조건</b>: ① 종가가 $60,000(SC) 위로 빠르게 복귀 → ② 거래량 동반 반등(수요 증거) → ③ 궁극적으로 레인지 상단 $82,850을 돌파(SOS). 이 순서가 나오면 "2월 SC / 현재 Spring" 가설이 사후 검증된다.</p>
+    <p style="margin-bottom:0">❌ <b>매집 무효 조건</b>: ① $58,115를 종가로 다시 이탈하며 ② 거래량이 실리면 → Spring이 아니라 SOW(약세신호), 즉 마크다운 재개. 그 아래는 $55k·$50k 라운드넘버까지 지지가 비어 있다.</p>
+  </div>
+  <p style="margin-top:14px;font-size:13px"><b style="color:var(--text)">핵심 한 줄:</b> "2월=SC, 어제=Spring"은 <b>구조적으로 성립 가능한 가설</b>이나, ①지지($60k) 회복 ②거래량 동반 ③SOS 돌파 — 이 셋 중 <b>아직 하나도 충족되지 않아</b> 현재는 '미확정'이다. Wyckoff 라벨은 본래 사후에만 확정된다.</p>
+</div>
+
+<div class="disc">
+  <b>⚠️ 면책</b> · 본 문서는 공개 주봉 데이터(BINANCE:BTCUSDT, 2026-06-26 기준)에 Wyckoff 분석틀을 적용한 <b>교육·분석 목적</b>의 자료이며, 투자 권유나 매매 신호가 아니다. Wyckoff의 SC·AR·ST·Spring·SOS 라벨은 본질적으로 <b>사후(hindsight)에만 확정</b>되는 해석적 도구로, 실시간 라벨링은 가설에 불과하다. 가격·거래량 수치는 작성 시점 기준이며 변동된다. 모든 투자 판단과 책임은 본인에게 있다. 손절·리스크 관리 없는 진입은 권하지 않는다.
+</div>
+
+</div>
+</body>
+</html>
